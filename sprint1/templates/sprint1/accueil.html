@@ -1,0 +1,60 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+   {{user_form.media.css}}
+  {{doc_form.media.css}}
+  <style type="text/css">
+    select {
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+    <br>
+  
+        {% block content %}
+          {% if user.is_authenticated %}
+                       <div class="container">
+                        <h1> Bonjour {{user.first_name}} {{ user.last_name}} ! </h1>
+                        <br>
+                        <h1> Votre email est {{user.email}}</h1>
+                      </div>
+          {% else %}
+                        <div class="row">
+
+                          <div class="col s3">
+                      
+                                </div>
+                  <div class="col s9">
+                              <h3>Créer un compte </h3>
+                                <form method="post" action="" >
+                                {% csrf_token %}
+                                
+                              
+                                 
+                                  {{ user_form.as_p }}
+                                 {{ doc_form }}
+
+                                
+                
+                                
+
+                               <button type="submit" class="btn btn-outline-primary">Inscription</button>
+
+                                </form>
+                                <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+                                
+                                {{doc_form.media.js}}
+
+                                
+
+
+                  </div>
+
+                    </div>
+     
+          {% endif %}
+
+        {% endblock %}
+        </body> 
