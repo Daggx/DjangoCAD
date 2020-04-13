@@ -18,8 +18,9 @@ from . import views
 app_name = 'sprint1'
 urlpatterns = [
     path("", views.accueil, name='accueil'),
-    path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
+    path('DoctorRegistration/', views.DoctorRegister, name='DoctorRegister'),
+    path('ReceptionistRegistration/', views.RecipRegister, name='RecipRegister'),
 
 
 ]

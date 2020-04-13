@@ -1,0 +1,25 @@
+{% load staticfiles %}
+{% block css %}
+{% load bootstrap4 %}
+	{% bootstrap_css %}
+	{% bootstrap_javascript jquery='full' %}
+{% endblock css %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
+		{% if title %}
+			<title>Django WEB CAD - {{title}} </title>
+		{% else %}
+			<title>Djago WEB CAD </title>
+		{% endif %}
+	</head>
+	<body>
+		
+		<div class="container my-4">
+			{% block content %}
+			{% endblock %}
+		</div>
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+	</body>
+</html>

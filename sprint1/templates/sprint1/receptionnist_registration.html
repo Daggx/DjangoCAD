@@ -1,0 +1,19 @@
+{% extends "Sprint1/base.html" %}
+{% load bootstrap4 %}
+{% block css%}
+	{{block.super}}
+	{{user_form.media}}
+	{{rec_form.media}}
+{% endblock css%}
+{% block content %}
+<a href="/" class="previous">&#8249;</a>
+<div align="center">
+	<form method="POST">
+		{% csrf_token %}
+		{%bootstrap_form user_form%}
+		{%bootstrap_form rec_form%}
+        <button type="submit" class="btn btn-outline-primary" name="submit" value="register" >Register</button>
+
+    </form>
+ </div>
+{% endblock %}
