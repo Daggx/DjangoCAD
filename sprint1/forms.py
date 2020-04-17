@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from bootstrap_datepicker_plus import DatePickerInput
+from crispy_forms.helper import FormHelper
 from .models import *
 
 
@@ -16,10 +17,17 @@ class UserLoginForm(forms.Form):
 
 
 class UserRegistrationForm(UserCreationForm):
+
     birth_date = forms.DateField(
         widget=DatePickerInput(
 
         )
+    )
+
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label='Password Confirmation',
+        widget=forms.PasswordInput
     )
 
     class Meta:
@@ -64,3 +72,16 @@ class ReceptionistForm(forms.ModelForm):
         model = Receptionist
         fields = ['first_name', 'last_name',
                   'hopital']
+
+
+class updateUser(forms.ModelForm):
+
+    birth_date = forms.DateField(
+        widget=DatePickerInput(
+
+        )
+    )
+
+    class Meta:
+        model = User
+        fields = ['email', 'birth_date']

@@ -1,0 +1,80 @@
+{% extends "sprint1/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{{u.media}}
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+ 
+  text-align: center;
+}
+
+.title {
+  color: grey;
+  font-size: 18px;
+}
+
+.bruh {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+</style>
+                 
+<div class="card">
+  <h1>{{doc.last_name}} {{doc.first_name}}</h1>
+    <p class="title">Doctor at {{doc.hopital.name}} hospital </p>
+  <p>{{doc.hopital.wilaya}}</p>
+  <p class="text-secondary">Your birth date : {{ user.birth_date }}</p>
+  <p class="text-secondary">Your grade : {{ doc.grade}}</p>
+  <p class="text-secondary"> As : {{doc.specialite}}</p>
+
+
+  <p class=bruh> profile informations</p>
+</div>
+<div class="card">
+	<form method="POST" >
+          {% csrf_token %}
+          <fieldset class="form-group">
+              <div class="form-row">
+                     <div class="col">
+                        {{u.email|as_crispy_field}}
+                    </div>
+                    <div class="col">
+                        {{u.birth_date|as_crispy_field}}
+                    </div>
+                </div>
+                    <div class="form-row">
+                    <div class="form-group col-md-6">
+                    {{d.first_name|as_crispy_field}}
+                    </div>
+                    <div class="form-group col-md-6">
+                    {{d.last_name|as_crispy_field}}
+                   </div>
+             </div>
+            <div class="form-group">
+                {{d.hopital|as_crispy_field}}
+            </div>
+            <div class="form-group">
+                {{d.grade|as_crispy_field}}
+            </div>
+            <div class="form-group">
+                {{d.specialite|as_crispy_field}}
+            </div>
+          </fieldset>
+      <div class="form-group">
+                <button class="btn btn-outline-dark" type="submit">update</button>
+            </div>
+      </form>
+
+</div>
+     
+{% endblock content %}

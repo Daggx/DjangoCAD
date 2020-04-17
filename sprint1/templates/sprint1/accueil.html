@@ -1,22 +1,21 @@
 {% extends 'Sprint1/base.html' %}
 
 {% block content %}
-{% include 'Sprint1/includes/navbar.html' %}
-<br><br>
+<br>
     <br>
           {% if user.is_authenticated %}
-                       <div class="container">
+                       <div class="container" align="center">
                         {% if user.is_doctor %}
-                        <h1> Bonjour Dr. {{doc.first_name}} {{ doc.last_name}} ! </h1>
+                        <h1> Welcome Dr. {{doc.first_name}} {{ doc.last_name}} ! </h1>
                         {% else %}
                           {% if user.is_receptionist%}
-                               <h1> Bonjour {{rec.first_name}} {{rec.last_name}}</h1>
+                               <h1> Welcome {{rec.first_name}} {{rec.last_name}}</h1>
                           {% else %}
                               <h1> Bonjour Admin </h1>
                           {%endif %}
                         {% endif %}
                         <br>
-                        <h1> Votre email est {{user.email}}</h1>
+                        <h1> Your are identified as : {{user.email}}</h1>
                       </div>
           {% else %}
                         <div class="row">
@@ -24,10 +23,10 @@
                           <div class="col s3">  
                                 </div>
                   <div class="col s9">
-                              <h3>Créer un compte :  </h3>   
+                              <h3>Create an account :  </h3>   
                                 <p class="lead">Select below the type of account you want to create</p>
-                                <a href="/DoctorRegistration" class="btn btn-doctor btn-lg" role="button">Je suis un(e) médecin</a>
-                                <a href="/ReceptionistRegistration" class="btn btn-recep btn-lg" role="button">Je suis un(e) réceptionniste</a>
+                                <a href="{% url 'sprint1:DoctorRegister' %}" class="btn btn-doctor btn-lg" role="button">I'm a Doctor</a>
+                                <a href="{% url 'sprint1:RecipRegister' %}" class="btn btn-recep btn-lg" role="button">I'm a Receptionnist</a>
                   </div>
                     </div>
           {% endif %}

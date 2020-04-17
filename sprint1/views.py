@@ -1,42 +1,25 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
-from .forms import UserLoginForm, UserRegistrationForm, DoctorRegistration, ReceptionistForm
+from .forms import UserLoginForm, UserRegistrationForm, DoctorRegistration, ReceptionistForm, updateUser
 from django.contrib import messages
 from django.contrib import auth
 from .models import *
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+
 
 # Create your views here.
 
 
 def accueil(request):
-    #     if request.POST.get('submit') == "register":
-    #         user_form = UserRegistrationForm(request.POST)
-    #         doc_form = DoctorRegistration(request.POST, request.FILES)
+    if request.user.is_authenticated:
+        return redirect('sprint1:UserHomePage')
+    return render(request, "sprint1/accueil.html")
 
-    #         if user_form.is_valid() and doc_form.is_valid():
-    #             user = user_form.save()
-    #             doc = doc_form.save(commit=False)
-    #             doc.user = user
-    #             doc.save()
 
-    #             u = user_form.cleaned_data['email']
-    #             p = user_form.cleaned_data['password1']
-    #             b = user_form.cleaned_data['birth_date']
-
-    #             user = authenticate(email=u, password=p, birth_date=b)
-    #             if user is not None:
-    #                 auth.login(request, user)
-    #                 return redirect("sprint1:accueil")
-
-    #         else:
-    #             for msg in user_form.error_messages:
-    #                 messages.error(
-    #                     request, f"{msg}: {user_form.error_messages[msg]}")
+def login(request):
     if request.method == "POST":
-        #     elif request.POST.get('submit') == "login":
         login_form = UserLoginForm(request.POST)
         if login_form.is_valid():
             u = login_form.cleaned_data['email']
@@ -45,13 +28,26 @@ def accueil(request):
 
             if user is not None:
                 auth.login(request, user)
-                return redirect("sprint1:accueil")
+                return redirect('sprint1:UserHomePage')
             else:
-                login_form.add_error(
-                    None, "Your username or password are incorrect")
+                messages.error(
+                    request, f"Your username or password are incorrect")
 
-    login_form = UserLoginForm(request.POST)
-    return render(request, "sprint1/accueil.html", {'form': login_form})
+    else:
+        login_form = UserLoginForm()
+    if request.user.is_authenticated:
+        return redirect('sprint1:UserHomePage')
+    return render(request, "sprint1/login.html", {'form': login_form})
+
+
+@login_required
+def UserHomePage(request):
+    if request.user.is_doctor:
+        doc = Doctor.objects.filter(user=request.user).first()
+        return render(request, "sprint1/accueil.html", {'doc': doc})
+    if request.user.is_receptionist:
+        rec = Receptionist.objects.filter(user=request.user).first()
+        return render(request, "sprint1/accueil.html", {'rec': rec})
 
 
 def logout(request):
@@ -61,26 +57,25 @@ def logout(request):
 
 def DoctorRegister(request):
     if request.method == 'POST':
+
         user_form = UserRegistrationForm(request.POST)
         doc_form = DoctorRegistration(request.POST, request.FILES)
         if user_form.is_valid() and doc_form.is_valid():
             user = user_form.save()
-
             doc = doc_form.save(commit=False)
-            context = {}
             doc.user = user
             doc.save()
-
             user.is_doctor = True
             user.save()
             u = user_form.cleaned_data['email']
             p = user_form.cleaned_data['password1']
             b = user_form.cleaned_data['birth_date']
-
+            messages.success(
+                request, f' Compte crée, bienvenu(e) {u} ')
             user = authenticate(email=u, password=p, birth_date=b)
             if user is not None:
                 auth.login(request, user)
-                return render(request, "sprint1/accueil.html", {'doc': doc})
+                return redirect('sprint1:UserHomePage')
 
     user_form = UserRegistrationForm()
     doc_form = DoctorRegistration()
@@ -95,13 +90,11 @@ def RecipRegister(request):
         rec_form = ReceptionistForm(request.POST, request.FILES)
         if user_form.is_valid() and rec_form.is_valid():
             user = user_form.save()
-
             rec = rec_form.save(commit=False)
             rec.user = user
             rec.save()
             user.is_receptionist = True
             user.save()
-
             u = user_form.cleaned_data['email']
             p = user_form.cleaned_data['password1']
             b = user_form.cleaned_data['birth_date']
@@ -109,9 +102,44 @@ def RecipRegister(request):
             user = authenticate(email=u, password=p, birth_date=b)
             if user is not None:
                 auth.login(request, user)
-                return render(request, "sprint1/accueil.html", {'rec': rec})
+                return redirect('sprint1:UserHomePage')
 
     user_form = UserRegistrationForm()
     form = UserLoginForm()
     rec_form = ReceptionistForm()
     return render(request, "sprint1/receptionnist_registration.html", {'user_form': user_form, 'rec_form': rec_form, 'form': form})
+
+
+@login_required
+def profile(request):
+    doc = Doctor.objects.filter(user=request.user).first()
+    if request.method == 'POST':
+        u = updateUser(request.POST, instance=request.user)
+        d = DoctorRegistration(request.POST, instance=doc)
+        if u.is_valid() and d.is_valid():
+            u.save()
+            d.save()
+            messages.success(request, f'Your profile has been updated')
+            return redirect('sprint1:profileDoc')
+    else:
+        u = updateUser(instance=request.user)
+        d = DoctorRegistration(instance=doc)
+
+    return render(request, 'sprint1/profile.html', {'doc': doc, 'u': u, 'd': d})
+
+
+@login_required
+def profileRec(request):
+    rec = Receptionist.objects.filter(user=request.user).first()
+    if request.method == 'POST':
+        u = updateUser(request.POST, instance=request.user)
+        r = ReceptionistForm(request.POST, instance=rec)
+        if u.is_valid() and r.is_valid():
+            u.save()
+            r.save()
+            messages.success(request, f'your profile has been updated')
+            return redirect('sprint1:profileR')
+    else:
+        u = updateUser(instance=request.user)
+        r = ReceptionistForm(instance=rec)
+    return render(request, 'sprint1/profileR.html', {'rec': rec, 'u': u, 'r': r})

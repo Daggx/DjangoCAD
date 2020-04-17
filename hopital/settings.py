@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'sprint1.apps.Sprint1Config',
     'bootstrap_datepicker_plus',
     'bootstrap4',
-    'django_select2',
     'crispy_forms',
 
 ]

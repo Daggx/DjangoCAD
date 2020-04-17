@@ -1,19 +1,55 @@
 {% extends "Sprint1/base.html" %}
-{% load bootstrap4 %}
+{% load crispy_forms_tags %}
 {% block css%}
 	{{block.super}}
 	{{user_form.media}}
-	{{rec_form.media}}
 {% endblock css%}
 {% block content %}
-<a href="/" class="previous">&#8249;</a>
-<div align="center">
+<div class =  "row">
+<div class = "col-md-8">
+	<a href="/" class="previous">&#8249;</a>
 	<form method="POST">
 		{% csrf_token %}
-		{%bootstrap_form user_form%}
-		{%bootstrap_form rec_form%}
-        <button type="submit" class="btn btn-outline-primary" name="submit" value="register" >Register</button>
+            <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Formulaire réceptionniste : </legend>
+            	<div class="form-row">
+                     <div class="col">
+                        {{user_form.email|as_crispy_field}}
+                    </div>
+                    <div class="col">
+                        {{user_form.birth_date|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                    {{user_form.password1|as_crispy_field}}
+                    </div>
+                    <div class="form-group col-md-6">
+                    {{user_form.password2|as_crispy_field}}
+                   </div>
+             </div>
+             <div class="form-row">
+                    <div class="form-group col-md-6">
+                    {{rec_form.first_name|as_crispy_field}}
+                    </div>
+                    <div class="form-group col-md-6">
+                    {{rec_form.last_name|as_crispy_field}}
+                   </div>
+             </div>
+            <div class="form-group">
+                {{rec_form.hopital|as_crispy_field}}
+            </div>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Inscription</button>
+            </div>
+	</form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Vous possédez déjà un compte ? <a class="ml-2" href="#">Login</a>
+            </small>
+        </div>
+    </div>
+   </div>
 
-    </form>
- </div>
-{% endblock %}
+{% endblock content %}
