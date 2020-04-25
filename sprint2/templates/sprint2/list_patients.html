@@ -1,0 +1,83 @@
+{% extends "Sprint1/base.html" %}
+{% load staticfiles%}
+{% load crispy_forms_tags %}
+{% block content %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" type="text/css" href="{% static 'css/TableCSS.css' %}">
+
+  
+ 
+
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+						<h2>Manage <b>Patients</b></h2>
+					</div>
+					<div class="col-sm-6">
+						<a href="{% url 'sprint2:addPatient' %}" class="btn btn-info" ><i class="material-icons">&#xE147;</i> <span>Add New Patient</span></a>						
+					</div>
+                </div>
+
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+						<th>Address</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for p in patient %}
+                    <tr>
+			
+						
+                        	<td>{{p.first_name}}</td>
+                        	<td>{{p.last_name}}</td>
+                        	<td>{{p.age}}</td>
+                        	<td>{{p.gender}}</td>
+                        	<td>{{p.Address}}</td>
+                        	<td>{{p.email}}</td>
+                        	<td>
+                            <a href="{% url 'sprint2:editPatient' p.pk %}" class="edit" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        
+                        	</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+{% if patient.has_other_pages %}
+  <ul class="pagination">
+    {% if patient.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ patient.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+    {% endif %}
+    {% for i in patient.paginator.page_range %}
+      {% if patient.number == i %}
+        <li class="page-item" class="active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li class="page-item" ><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if patient.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ patient.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+        </div>
+    </div>
+
+
+
+{% endblock content %}
+

@@ -7,15 +7,23 @@
                        <div class="container" align="center">
                         {% if user.is_doctor %}
                         <h1> Welcome Dr. {{doc.first_name}} {{ doc.last_name}} ! </h1>
+                          <h3> To access the MRI data base : </h3>
+                           <a href="{% url 'sprint2:irm_list' %}" class="btn btn-outline-info " role="button" aria-disabled="true">Click here !</a>
+                          
+
                         {% else %}
                           {% if user.is_receptionist%}
                                <h1> Welcome {{rec.first_name}} {{rec.last_name}}</h1>
+                               <h3> To access the patients data base click here : </h3>
+                               <a href="{% url 'sprint2:patient_list' %}" class="btn btn-outline-info " role="button" aria-disabled="true">Access Data Base</a>
+                          
+
                           {% else %}
                               <h1> Bonjour Admin </h1>
                           {%endif %}
                         {% endif %}
                         <br>
-                        <h1> Your are identified as : {{user.email}}</h1>
+                        
                       </div>
           {% else %}
                         <div class="row">

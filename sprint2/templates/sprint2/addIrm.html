@@ -1,0 +1,17 @@
+{% extends "Sprint1/base.html" %}
+{% load staticfiles%}
+{% load crispy_forms_tags %}
+{% block content %}
+<form method='POST' enctype='multipart/form-data'>
+	{% csrf_token %}
+	<div class="form-group">
+							
+							{{irm_form.irm_pic|as_crispy_field}}
+							{{irm_form.irm_date|as_crispy_field}}
+
+		<a href="{% url 'sprint2:irm_list' %}" type ="button"class="btn btn-default" >Cancel</a>					
+ 	<button class="btn btn-outline-info" name="submit" type="submit" value="register">Add</button>
+
+</form>
+{% endblock content %}
+

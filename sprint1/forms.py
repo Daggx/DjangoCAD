@@ -34,10 +34,13 @@ class UserRegistrationForm(UserCreationForm):
         model = User
         fields = ['email', 'birth_date', 'password1', 'password2']
 
-        def clean_email(self):
-            email = self.cleaned_data.get('email')
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email):
+            raise forms.ValidationError('Email addresses must be unique.')
+        return email
 
-    def clean_password2(self):
+    def clean_password(self):
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
 
