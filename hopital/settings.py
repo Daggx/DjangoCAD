@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sprint1.apps.Sprint1Config',
+    'sprint2.apps.Sprint2Config',
     'bootstrap_datepicker_plus',
     'bootstrap4',
     'crispy_forms',
@@ -128,3 +129,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

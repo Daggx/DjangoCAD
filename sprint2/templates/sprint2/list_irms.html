@@ -1,0 +1,48 @@
+{% extends "Sprint1/base.html" %}
+{% block content %}
+
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+						<h2>Manage <b>MRIs</b></h2>
+					</div>
+					<div class="col-sm-6">
+						<a href="{% url 'sprint2:addIRM' %}" class="btn btn-info" ><i class="material-icons">&#xE147;</i> <span>Add New IRM</span></a>						
+					</div>
+                </div>
+
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>ID Patient</th>
+                        <th>Img MRI</th>
+                        <th>Category</th>
+                        <th>Date MRI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	{% for p in irms %}
+                    <tr>
+			
+						
+                        	<td>{{p.id_patient.id}}</td>
+                        	
+                        	<td><a href = '{{ p.irm_pic.url }}'> {{p.irm_pic}}</a></td>
+                        	<td>{{p.irm_categorie}}</td>
+                        	<td>{{p.irm_date}}</td>
+       
+                        	<td>
+                            <a href="#" class="btn btn-info" >Classify</a>
+                            <a href="#" class="btn btn-info" >Result</a>
+                        	</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock content%}

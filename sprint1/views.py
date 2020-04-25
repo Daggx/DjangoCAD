@@ -45,9 +45,11 @@ def UserHomePage(request):
     if request.user.is_doctor:
         doc = Doctor.objects.filter(user=request.user).first()
         return render(request, "sprint1/accueil.html", {'doc': doc})
-    if request.user.is_receptionist:
+    elif request.user.is_receptionist:
         rec = Receptionist.objects.filter(user=request.user).first()
         return render(request, "sprint1/accueil.html", {'rec': rec})
+    else:
+        return render(request, 'sprint1/accueil.html')
 
 
 def logout(request):
@@ -76,12 +78,13 @@ def DoctorRegister(request):
             if user is not None:
                 auth.login(request, user)
                 return redirect('sprint1:UserHomePage')
+        else:
+            return render(request, 'sprint1/doctor_registration.html', {'user_form': user_form, 'doc_form': doc_form})
 
     user_form = UserRegistrationForm()
     doc_form = DoctorRegistration()
-    form = UserLoginForm()
 
-    return render(request, "sprint1/doctor_registration.html", {'user_form': user_form, 'doc_form': doc_form, 'form': form})
+    return render(request, "sprint1/doctor_registration.html", {'user_form': user_form, 'doc_form': doc_form})
 
 
 def RecipRegister(request):
@@ -103,11 +106,12 @@ def RecipRegister(request):
             if user is not None:
                 auth.login(request, user)
                 return redirect('sprint1:UserHomePage')
+        else:
+            return render(request, "sprint1/receptionnist_registration.html", {'user_form': user_form, 'rec_form': rec_form})
 
     user_form = UserRegistrationForm()
-    form = UserLoginForm()
     rec_form = ReceptionistForm()
-    return render(request, "sprint1/receptionnist_registration.html", {'user_form': user_form, 'rec_form': rec_form, 'form': form})
+    return render(request, "sprint1/receptionnist_registration.html", {'user_form': user_form, 'rec_form': rec_form})
 
 
 @login_required

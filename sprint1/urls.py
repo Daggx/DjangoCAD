@@ -24,8 +24,5 @@ urlpatterns = [
     path('register/Receptionnist/', views.RecipRegister, name='RecipRegister'),
     path('UserHomePage/', views.UserHomePage, name='UserHomePage'),
     path('doctor/profile/', views.profile, name='profileDoc'),
-    path('receptionnist/profile/', views.profileRec, name='profileR')
-    #path('receptionnist/profile/', views.profile, name='profile'),
-
-
+    path('receptionnist/profile/', views.profileRec, name='profileR'),
 ]
