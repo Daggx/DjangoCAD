@@ -16,7 +16,8 @@
 						<h2>Manage <b>Patients</b></h2>
 					</div>
 					<div class="col-sm-6">
-						<a href="{% url 'sprint2:addPatient' %}" class="btn btn-info" ><i class="material-icons">&#xE147;</i> <span>Add New Patient</span></a>						
+						<a href="{% url 'sprint2:addPatient' %}" class="btn btn-info" ><i class="material-icons">&#xE147;</i> <span>Add New Patient</span></a>
+
 					</div>
                 </div>
 
@@ -47,6 +48,9 @@
                         	<td>{{p.email}}</td>
                         	<td>
                             <a href="{% url 'sprint2:editPatient' p.pk %}" class="edit" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="{% url 'sprint2:addIRMPatient' p.pk %}" class="edit" ><span class="material-icons">
+add_photo_alternate
+</span></a>
                         
                         	</td>
                     </tr>

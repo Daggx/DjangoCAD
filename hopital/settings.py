@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sprint1.apps.Sprint1Config',
     'sprint2.apps.Sprint2Config',
+    'sprint3.apps.Sprint3Config',
     'bootstrap_datepicker_plus',
     'bootstrap4',
     'crispy_forms',

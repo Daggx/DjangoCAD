@@ -19,8 +19,8 @@ class UserLoginForm(forms.Form):
 class UserRegistrationForm(UserCreationForm):
 
     birth_date = forms.DateField(
-        widget=DatePickerInput(
-
+        widget=forms.TextInput(
+            attrs={'type': 'date'}
         )
     )
 

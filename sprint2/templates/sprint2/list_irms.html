@@ -1,6 +1,9 @@
 {% extends "Sprint1/base.html" %}
+{% load staticfiles%}
+{% load crispy_forms_tags %}
 {% block content %}
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" type="text/css" href="{% static 'css/IRM_TABLE.css' %}">
     <div class="container">
         <div class="table-wrapper">
             <div class="table-title">
@@ -21,21 +24,22 @@
                         <th>Img MRI</th>
                         <th>Category</th>
                         <th>Date MRI</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                	{% for p in irms %}
+                	{% for p in irm %}
                     <tr>
 			
 						
                         	<td>{{p.id_patient.id}}</td>
                         	
-                        	<td><a href = '{{ p.irm_pic.url }}'> {{p.irm_pic}}</a></td>
+                        	<td class="w-25"><a href = '{{ p.irm_pic.url }}'> <img src="{{p.irm_pic.url}}" class="img-fluid img-thumbnail" alt="Responsive image"></a></td>
                         	<td>{{p.irm_categorie}}</td>
                         	<td>{{p.irm_date}}</td>
        
                         	<td>
-                            <a href="#" class="btn btn-info" >Classify</a>
+                            <a href="{% url 'sprint3:classification' p.pk %}" class="btn btn-info" >Classify</a>
                             <a href="#" class="btn btn-info" >Result</a>
                         	</td>
                     </tr>
@@ -43,6 +47,27 @@
                 </tbody>
             </table>
 
+            {% if irm.has_other_pages %}
+  <ul class="pagination">
+    {% if irm.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ irm.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+    {% endif %}
+    {% for i in irm.paginator.page_range %}
+      {% if irm.number == i %}
+        <li class="page-item" class="active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li class="page-item" ><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if irm.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ irm.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
         </div>
     </div>
 {% endblock content%}

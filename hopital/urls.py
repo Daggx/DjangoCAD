@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', include('sprint1.urls')),
     path('list/', include('sprint2.urls')),
+    path('list/irm_list/classify/', include('sprint3.urls')),
     path('admin/', admin.site.urls),
     url(r'^select2/', include('django_select2.urls')),
 

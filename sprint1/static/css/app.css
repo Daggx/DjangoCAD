@@ -3,7 +3,15 @@
   background-color: #91afb6;
   border-color: #91afb6;
 }
-
+ body {
+        color: #566787;
+    background: #f5f5f5;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 13px;
+  }
+ main div {
+  
+ }
 .btn-doctor:hover,
 .btn-doctor:active {
   color: #fff;
@@ -48,5 +56,5 @@
 main{
     display: flex;
     flex-direction: column;
-    min-height: 86vh;
+    min-height: 90vh;
 }

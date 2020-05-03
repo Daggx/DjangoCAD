@@ -23,7 +23,9 @@ app_name = 'sprint2'
 urlpatterns = [
     path('patients/', views.list, name='patient_list'),
     path('patients/addPatient', views.addPatient, name='addPatient'),
-    path('patients/editPatient/<int:pk>/', views.editPatient, name='editPatient'),
+    path('patients/editPatient/<int:pk>/',
+         views.editPatient, name='editPatient'),
+    path('patients/addirm/<int:pk>/', views.addIRMPatient, name='addIRMPatient'),
     path('irm_list/', views.irm_list, name='irm_list'),
     path('irm_list/add', views.addIRM, name='addIRM'),
 ]

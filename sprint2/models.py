@@ -25,8 +25,9 @@ class Patient(models.Model):
 
 
 class IRM(models.Model):
-    id_patient = models.OneToOneField(Patient, on_delete=models.CASCADE)
-    irm_pic = models.ImageField(default='default.jpg', upload_to='irm_pics')
+    id_patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    irm_pic = models.ImageField(
+        default='default.jpg', upload_to='irm_pics')
     IRM_CATEGORIES = (
         ('F1', 'F1'),
         ('F2', 'F2'),

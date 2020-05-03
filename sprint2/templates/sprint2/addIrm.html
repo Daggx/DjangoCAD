@@ -8,8 +8,11 @@
 							
 							{{irm_form.irm_pic|as_crispy_field}}
 							{{irm_form.irm_date|as_crispy_field}}
-
-		<a href="{% url 'sprint2:irm_list' %}" type ="button"class="btn btn-default" >Cancel</a>					
+		{% if user.is_doctor %}
+		<a href="{% url 'sprint2:irm_list' %}" type ="button"class="btn btn-outline-dark" >Cancel</a>		
+		{% else %}
+		<a href="{% url 'sprint2:patient_list' %}" type ="button"class="btn btn-outline-dark" >Cancel</a>
+		{%endif %}
  	<button class="btn btn-outline-info" name="submit" type="submit" value="register">Add</button>
 
 </form>
